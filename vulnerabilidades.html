@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Easy SOC — Vulnerabilidades</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <title>Vulnerabilidades - Easy SOC</title>
 
   <style>
     body {
       margin: 0;
-      font-family: 'Inter', sans-serif;
+      font-family: Arial, sans-serif;
       background: #f5f7fb;
       display: flex;
     }
 
-    /* SIDEBAR */
     .sidebar {
       width: 230px;
       height: 100vh;
@@ -31,14 +27,6 @@
       top: 0;
     }
 
-    .sidebar h2 {
-      margin-top: 0;
-      margin-bottom: 25px;
-      font-size: 22px;
-      text-align: center;
-      font-weight: 600;
-    }
-
     .sidebar a {
       padding: 12px;
       margin-bottom: 8px;
@@ -47,118 +35,56 @@
       border-radius: 6px;
       cursor: pointer;
       display: block;
-      font-size: 15px;
-      transition: 0.2s;
     }
 
-    .sidebar a:hover {
-      background: #2a3048;
-      color: white;
-    }
+    .sidebar a:hover { background: #2a3048; color: white; }
 
-    .sidebar .active {
-      background: #4c8bfd;
-      color: white;
-    }
-
-    /* CONTEÚDO */
     .content {
-      margin-left: 250px;
+      margin-left: 260px;
       padding: 25px;
-      width: calc(100% - 250px);
+      width: calc(100% - 260px);
     }
 
-    h1 {
-      margin-top: 0;
-      font-size: 26px;
-      margin-bottom: 25px;
-    }
-
-    /* TABELA */
     table {
       width: 100%;
-      background: white;
-      border-radius: 12px;
-      padding: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
       border-collapse: collapse;
+      margin-top: 15px;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
     }
 
     th, td {
-      padding: 12px;
-      font-size: 15px;
-      border-bottom: 1px solid #eee;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
       text-align: left;
     }
 
-    th {
-      background: #f0f3f9;
-      font-weight: 600;
-    }
-
-    .severity-critical { color: #dc3545; font-weight: bold; }
-    .severity-high { color: #fd7e14; font-weight: bold; }
-    .severity-medium { color: #ffc107; font-weight: bold; }
-    .severity-low { color: #28a745; font-weight: bold; }
-
-    /* MODAL */
-    .modal-bg {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      width: 600px;
-      max-width: 95%;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
-
-    .modal h2 {
-      margin-top: 0;
-    }
-
-    .close-btn {
-      background: #dc3545;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      border: none;
-      float: right;
-    }
+    th { background: #f0f0f0; }
   </style>
-</head>
 
+</head>
 <body>
 
   <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>Easy SOC</h2>
 
-    <a id="menu-dashboard">Dashboard</a>
-    <a id="menu-maquinas">Máquinas</a>
-    <a id="menu-vulnerabilidades" class="active">Vulnerabilidades</a>
-    <a id="menu-riscos">Riscos</a>
-    <a id="menu-incidentes">Incidentes</a>
-    <a id="menu-relatorios">Relatórios</a>
-    <a id="menu-documentacoes">Documentações</a>
-    <a id="menu-noticias">Notícias</a>
-    <a id="menu-sair">Sair</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="maquinas.html">Máquinas</a>
+    <a class="active">Vulnerabilidades</a>
+    <a href="riscos.html">Riscos</a>
+    <a href="incidentes.html">Incidentes</a>
+    <a href="relatorios.html">Relatórios</a>
+    <a href="documentacoes.html">Documentações</a>
+    <a href="noticias.html">Notícias</a>
+    <a id="sair">Sair</a>
   </div>
 
-  <!-- CONTEÚDO -->
   <div class="content">
-    <h1>Vulnerabilidades</h1>
+    <h1 id="titulo-vuln">Vulnerabilidades</h1>
+
+    <p id="loading">Carregando...</p>
 
     <table>
       <thead>
@@ -171,63 +97,16 @@
         </tr>
       </thead>
 
-      <tbody id="tabela-vulnerabilidades">
-        <!-- preenchido pelo JS -->
-      </tbody>
+      <tbody id="tbody-vulnerabilidades"></tbody>
     </table>
   </div>
 
-  <!-- MODAL -->
-  <div id="modal-bg" class="modal-bg">
-    <div class="modal">
-      <button class="close-btn" onclick="fecharModal()">Fechar</button>
-      <h2>Detalhes da Vulnerabilidade</h2>
-      <div id="modal-conteudo"></div>
-    </div>
-  </div>
-
-  <!-- JAVASCRIPT -->
   <script src="js/vulnerabilidades.js"></script>
-
-  <!-- SCRIPT PADRÃO DO MENU -->
   <script>
-    document.getElementById("menu-dashboard").onclick = () => {
-      window.location.href = "dashboard.html";
-    };
-
-    document.getElementById("menu-maquinas").onclick = () => {
-      window.location.href = "maquinas.html";
-    };
-
-    document.getElementById("menu-vulnerabilidades").onclick = () => {
-      window.location.href = "vulnerabilidades.html";
-    };
-
-    document.getElementById("menu-riscos").onclick = () => {
-      window.location.href = "riscos.html";
-    };
-
-    document.getElementById("menu-incidentes").onclick = () => {
-      window.location.href = "incidentes.html";
-    };
-
-    document.getElementById("menu-relatorios").onclick = () => {
-      window.location.href = "relatorios.html";
-    };
-
-    document.getElementById("menu-documentacoes").onclick = () => {
-      window.location.href = "documentacoes.html";
-    };
-
-    document.getElementById("menu-noticias").onclick = () => {
-      window.location.href = "noticias.html";
-    };
-
-    document.getElementById("menu-sair").onclick = () => {
+    document.getElementById("sair").onclick = () => {
       localStorage.clear();
       window.location.href = "index.html";
     };
   </script>
-
 </body>
 </html>

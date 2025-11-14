@@ -64,70 +64,118 @@
     /* CONTEÚDO */
     .content {
       margin-left: 250px;
-      padding: 25px;
+      padding: 20px;
       width: calc(100% - 250px);
     }
 
     h1 {
       margin-top: 0;
       font-size: 26px;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
+    /* CARDS */
     .cards {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-bottom: 40px;
+      grid-template-columns: 1fr;
+      gap: 15px;
     }
 
     .card {
       background: white;
-      padding: 25px;
+      padding: 20px;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.12);
       text-align: center;
       cursor: pointer;
       transition: .2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .card:hover {
-      transform: scale(1.03);
+      transform: scale(1.02);
       box-shadow: 0 4px 14px rgba(0,0,0,0.15);
     }
 
-    .card h3 {
-      margin-top: 10px;
-      font-size: 18px;
-    }
-
-    /* Histórico */
-    table {
-      width: 100%;
-      background: white;
-      border-radius: 12px;
-      padding: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 12px;
-      font-size: 15px;
-      border-bottom: 1px solid #eee;
-      text-align: left;
-    }
-
-    th {
-      background: #f0f3f9;
-      font-weight: 600;
-    }
-
-    /* Ícones */
     .icon {
       font-size: 45px;
     }
+
+    .card h3 {
+      font-size: 18px;
+      margin-top: 10px;
+      margin-bottom: 0;
+    }
+
+    /* HISTÓRICO */
+    .lista-relatorios {
+      margin-top: 25px;
+    }
+
+    .item-relatorio {
+      background: white;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
+
+    .linha {
+      display: flex;
+      justify-content: space-between;
+      padding: 3px 0;
+    }
+
+    .btn-download {
+      margin-top: 10px;
+      padding: 10px;
+      background: #4c8bfd;
+      color: white;
+      border: none;
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* SEM REGISTROS */
+    .nenhum {
+      text-align: center;
+      color: #666;
+      margin-top: 10px;
+    }
+
+    /* MODAL */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.45);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 90%;
+      width: 350px;
+    }
+
+    .close-btn {
+      background: #dc3545;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: none;
+      float: right;
+      cursor: pointer;
+    }
   </style>
+
 </head>
 
 <body>
@@ -151,87 +199,56 @@
   <div class="content">
     <h1>Relatórios</h1>
 
-    <!-- Cards de geração -->
+    <!-- CARDS -->
     <div class="cards">
-
-      <div class="card" onclick="alert('Relatório PDF será gerado em breve!')">
+      <div class="card" onclick="gerar('PDF')">
         <div class="icon">📄</div>
-        <h3>Gerar Relatório em PDF</h3>
+        <h3>Gerar Relatório PDF</h3>
       </div>
 
-      <div class="card" onclick="alert('Relatório Excel será gerado em breve!')">
+      <div class="card" onclick="gerar('EXCEL')">
         <div class="icon">📊</div>
-        <h3>Exportar para Excel</h3>
+        <h3>Exportar Excel</h3>
       </div>
 
-      <div class="card" onclick="alert('Relatório CSV será gerado em breve!')">
+      <div class="card" onclick="gerar('CSV')">
         <div class="icon">📥</div>
-        <h3>Exportar para CSV</h3>
+        <h3>Exportar CSV</h3>
       </div>
-
     </div>
 
-    <!-- Histórico de relatórios -->
-    <h2>Histórico de Relatórios</h2>
+    <!-- HISTÓRICO -->
+    <h2 style="margin-top: 25px;">Histórico de Relatórios</h2>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Data</th>
-          <th>Tipo</th>
-          <th>Gerado Por</th>
-          <th>Download</th>
-        </tr>
-      </thead>
-
-      <tbody id="tabela-relatorios">
-        <tr>
-          <td>—</td>
-          <td>Nenhum relatório gerado ainda</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-      </tbody>
-    </table>
+    <div id="lista-relatorios" class="lista-relatorios">
+      <p class="nenhum">Nenhum relatório gerado ainda</p>
+    </div>
   </div>
 
-  <!-- SCRIPT PADRÃO DO MENU -->
+  <!-- MODAL -->
+  <div id="modal-bg" class="modal-bg">
+    <div class="modal">
+      <button class="close-btn" onclick="fecharModal()">Fechar</button>
+      <h3 id="modal-titulo"></h3>
+      <p id="modal-msg"></p>
+    </div>
+  </div>
+
+  <script src="js/relatorios.js"></script>
+
+  <!-- MENU -->
   <script>
-    document.getElementById("menu-dashboard").onclick = () => {
-      window.location.href = "dashboard.html";
-    };
-
-    document.getElementById("menu-maquinas").onclick = () => {
-      window.location.href = "maquinas.html";
-    };
-
-    document.getElementById("menu-vulnerabilidades").onclick = () => {
-      window.location.href = "vulnerabilidades.html";
-    };
-
-    document.getElementById("menu-riscos").onclick = () => {
-      window.location.href = "riscos.html";
-    };
-
-    document.getElementById("menu-incidentes").onclick = () => {
-      window.location.href = "incidentes.html";
-    };
-
-    document.getElementById("menu-relatorios").onclick = () => {
-      window.location.href = "relatorios.html";
-    };
-
-    document.getElementById("menu-documentacoes").onclick = () => {
-      window.location.href = "documentacoes.html";
-    };
-
-    document.getElementById("menu-noticias").onclick = () => {
-      window.location.href = "noticias.html";
-    };
-
+    document.getElementById("menu-dashboard").onclick = () => location.href = "dashboard.html";
+    document.getElementById("menu-maquinas").onclick = () => location.href = "maquinas.html";
+    document.getElementById("menu-vulnerabilidades").onclick = () => location.href = "vulnerabilidades.html";
+    document.getElementById("menu-riscos").onclick = () => location.href = "riscos.html";
+    document.getElementById("menu-incidentes").onclick = () => location.href = "incidentes.html";
+    document.getElementById("menu-relatorios").onclick = () => location.href = "relatorios.html";
+    document.getElementById("menu-documentacoes").onclick = () => location.href = "documentacoes.html";
+    document.getElementById("menu-noticias").onclick = () => location.href = "noticias.html";
     document.getElementById("menu-sair").onclick = () => {
       localStorage.clear();
-      window.location.href = "index.html";
+      location.href = "index.html";
     };
   </script>
 

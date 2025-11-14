@@ -56,28 +56,29 @@
       color: white;
     }
 
-    .sidebar .active {
-      background: #4c8bfd;
-      color: white;
+    .active {
+      background: #4c8bfd !important;
+      color: white !important;
     }
 
     /* CONTEÚDO */
     .content {
       margin-left: 250px;
-      padding: 25px;
+      padding: 20px;
       width: calc(100% - 250px);
     }
 
     h1 {
       margin-top: 0;
       font-size: 26px;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
+    /* GRID MOBILE */
     .docs-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
+      grid-template-columns: 1fr;
+      gap: 15px;
     }
 
     .doc-card {
@@ -87,11 +88,14 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.12);
       cursor: pointer;
       transition: .2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
     }
 
     .doc-card:hover {
-      transform: scale(1.03);
+      transform: scale(1.02);
       box-shadow: 0 4px 14px rgba(0,0,0,0.15);
     }
 
@@ -100,16 +104,47 @@
       margin-bottom: 10px;
     }
 
-    h3 {
-      margin: 0;
+    .doc-title {
       font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
     }
 
-    p {
-      margin-top: 6px;
+    .doc-desc {
       color: #666;
       font-size: 14px;
+      margin: 0;
     }
+
+    /* MODAL */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.45);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 350px;
+    }
+
+    .close-btn {
+      background: #dc3545;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: none;
+      float: right;
+    }
+
   </style>
 </head>
 
@@ -136,82 +171,70 @@
 
     <div class="docs-grid">
 
-      <div class="doc-card" onclick="alert('Upload de documentos será ativado futuramente!')">
+      <div class="doc-card" onclick="abrirDoc('PSI — Política de Segurança da Informação')">
         <div class="doc-icon">📘</div>
-        <h3>PSI — Política de Segurança da Informação</h3>
-        <p>Diretrizes, normas e requisitos para clientes.</p>
+        <div class="doc-title">PSI — Política de Segurança da Informação</div>
+        <p class="doc-desc">Diretrizes, normas e requisitos.</p>
       </div>
 
-      <div class="doc-card" onclick="alert('Upload de documentos será ativado futuramente!')">
+      <div class="doc-card" onclick="abrirDoc('Contrato BYOD')">
         <div class="doc-icon">📝</div>
-        <h3>Contrato BYOD</h3>
-        <p>Termo para colaboradores que usam dispositivos pessoais.</p>
+        <div class="doc-title">Contrato BYOD</div>
+        <p class="doc-desc">Termos para colaboradores.</p>
       </div>
 
-      <div class="doc-card" onclick="alert('Upload de documentos será ativado futuramente!')">
+      <div class="doc-card" onclick="abrirDoc('Arquitetura do SOC')">
         <div class="doc-icon">📄</div>
-        <h3>Arquitetura do SOC</h3>
-        <p>Visão técnica da operação de segurança.</p>
+        <div class="doc-title">Arquitetura do SOC</div>
+        <p class="doc-desc">Visão técnica da operação.</p>
       </div>
 
-      <div class="doc-card" onclick="alert('Upload de documentos será ativado futuramente!')">
+      <div class="doc-card" onclick="abrirDoc('Modelos de Relatórios')">
         <div class="doc-icon">📑</div>
-        <h3>Modelos de Relatórios</h3>
-        <p>Templates para clientes e auditorias.</p>
+        <div class="doc-title">Modelos de Relatórios</div>
+        <p class="doc-desc">Templates profissionais.</p>
       </div>
 
-      <div class="doc-card" onclick="alert('Upload de documentos será ativado futuramente!')">
+      <div class="doc-card" onclick="abrirDoc('Guias e Procedimentos')">
         <div class="doc-icon">📚</div>
-        <h3>Guias e Procedimentos</h3>
-        <p>Passo a passo para tratativas e emergências.</p>
+        <div class="doc-title">Guias e Procedimentos</div>
+        <p class="doc-desc">Passo a passo.</p>
       </div>
 
-      <div class="doc-card" onclick="alert('Upload de documentos será ativado futuramente!')">
+      <div class="doc-card" onclick="abrirDoc('Compliance & LGPD')">
         <div class="doc-icon">🔒</div>
-        <h3>Compliance & LGPD</h3>
-        <p>Documentação focada em privacidade e governança.</p>
+        <div class="doc-title">Compliance & LGPD</div>
+        <p class="doc-desc">Documentação completa.</p>
       </div>
 
     </div>
   </div>
 
-  <!-- SCRIPT PADRÃO DO MENU -->
+  <!-- MODAL -->
+  <div id="modal-bg" class="modal-bg">
+    <div class="modal">
+      <button class="close-btn" onclick="fecharModal()">Fechar</button>
+      <h3 id="modal-titulo"></h3>
+      <p id="modal-msg"></p>
+    </div>
+  </div>
+
+  <script src="js/documentacoes.js"></script>
+
+  <!-- MENU -->
   <script>
-    document.getElementById("menu-dashboard").onclick = () => {
-      window.location.href = "dashboard.html";
-    };
-
-    document.getElementById("menu-maquinas").onclick = () => {
-      window.location.href = "maquinas.html";
-    };
-
-    document.getElementById("menu-vulnerabilidades").onclick = () => {
-      window.location.href = "vulnerabilidades.html";
-    };
-
-    document.getElementById("menu-riscos").onclick = () => {
-      window.location.href = "riscos.html";
-    };
-
-    document.getElementById("menu-incidentes").onclick = () => {
-      window.location.href = "incidentes.html";
-    };
-
-    document.getElementById("menu-relatorios").onclick = () => {
-      window.location.href = "relatorios.html";
-    };
-
-    document.getElementById("menu-documentacoes").onclick = () => {
-      window.location.href = "documentacoes.html";
-    };
-
-    document.getElementById("menu-noticias").onclick = () => {
-      window.location.href = "noticias.html";
-    };
+    document.getElementById("menu-dashboard").onclick = () => location.href = "dashboard.html";
+    document.getElementById("menu-maquinas").onclick = () => location.href = "maquinas.html";
+    document.getElementById("menu-vulnerabilidades").onclick = () => location.href = "vulnerabilidades.html";
+    document.getElementById("menu-riscos").onclick = () => location.href = "riscos.html";
+    document.getElementById("menu-incidentes").onclick = () => location.href = "incidentes.html";
+    document.getElementById("menu-relatorios").onclick = () => location.href = "relatorios.html";
+    document.getElementById("menu-documentacoes").onclick = () => location.href = "documentacoes.html";
+    document.getElementById("menu-noticias").onclick = () => location.href = "noticias.html";
 
     document.getElementById("menu-sair").onclick = () => {
       localStorage.clear();
-      window.location.href = "index.html";
+      location.href = "index.html";
     };
   </script>
 

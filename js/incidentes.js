@@ -1,56 +1,63 @@
-// js/incidentes.js
+// ======================================================
+// INCIDENTES - MOBILE
+// ======================================================
 
 const API_BASE = "https://easy-soc-backend.onrender.com/api";
 
-// 🔐 Verifica token
 if (!localStorage.getItem("token")) {
   window.location.href = "index.html";
 }
 
-/* ============================================================
-   📥 Carregar incidentes da API
-   ============================================================ */
 async function carregarIncidentes() {
-  const tabela = document.getElementById("tbody-incidentes");
   const loading = document.getElementById("loading");
+  const listaHtml = document.getElementById("lista-incidentes");
   const titulo = document.getElementById("titulo-incidentes");
 
   try {
     loading.innerText = "Carregando incidentes...";
-    tabela.innerHTML = "";
+    listaHtml.innerHTML = "";
 
-    const response = await fetch(`${API_BASE}/incidentes`, {
+    const res = await fetch(`${API_BASE}/incidentes`, {
       headers: {
         "Authorization": "Bearer " + localStorage.getItem("token")
       }
     });
 
-    if (!response.ok) {
-      throw new Error("Erro ao buscar incidentes");
-    }
-
-    const data = await response.json();
+    const data = await res.json();
     const lista = data.incidentes || [];
 
-    titulo.innerText = `Incidentes encontrados: ${lista.length}`;
     loading.style.display = "none";
+    titulo.innerText = `Incidentes encontrados: ${lista.length}`;
 
     if (lista.length === 0) {
-      tabela.innerHTML = `<tr><td colspan="6">Nenhum incidente encontrado.</td></tr>`;
+      listaHtml.innerHTML = `<p style="text-align:center;color:#555;">Nenhum incidente encontrado.</p>`;
       return;
     }
 
-    lista.forEach(inc => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${inc.ID || "-"}</td>
-        <td>${inc.Máquina || "-"}</td>
-        <td>${inc.Tipo || "-"}</td>
-        <td>${inc.Status || "-"}</td>
-        <td>${inc.Data || "-"}</td>
-        <td>${inc.Detalhes || "-"}</td>
+    lista.forEach(i => {
+      const status = (i.Status || "").toLowerCase();
+
+      let statusClass =
+        status.includes("aberto") ? "status-aberto" :
+        status.includes("andamento") ? "status-andamento" :
+        "status-fechado";
+
+      const card = document.createElement("div");
+      card.className = "card-incidente";
+
+      card.innerHTML = `
+        <div class="linha"><strong>ID:</strong> <span>${i.ID}</span></div>
+        <div class="linha"><strong>Máquina:</strong> <span>${i.Máquina}</span></div>
+        <div class="linha"><strong>Tipo:</strong> <span>${i.Tipo}</span></div>
+        <div class="linha"><strong>Status:</strong> <span class="${statusClass}">${i.Status}</span></div>
+        <div class="linha"><strong>Data:</strong> <span>${i.Data}</span></div>
+
+        <button class="btn-ver" onclick='abrirModal(${JSON.stringify(i)})'>
+          Ver detalhes
+        </button>
       `;
-      tabela.appendChild(tr);
+
+      listaHtml.appendChild(card);
     });
 
   } catch (err) {
@@ -59,5 +66,22 @@ async function carregarIncidentes() {
   }
 }
 
-// 🚀 Executa ao abrir a página
+// MODAL
+function abrirModal(i) {
+  document.getElementById("modal-bg").style.display = "flex";
+
+  document.getElementById("modal-conteudo").innerHTML = `
+    <p><b>ID:</b> ${i.ID}</p>
+    <p><b>Máquina:</b> ${i.Máquina}</p>
+    <p><b>Tipo:</b> ${i.Tipo}</p>
+    <p><b>Status:</b> ${i.Status}</p>
+    <p><b>Data:</b> ${i.Data}</p>
+    <p><b>Detalhes:</b> ${i.Detalhes}</p>
+  `;
+}
+
+function fecharModal() {
+  document.getElementById("modal-bg").style.display = "none";
+}
+
 carregarIncidentes();

@@ -1,62 +1,83 @@
-// js/vulnerabilidades.js
+// ======================================================
+// VULNERABILIDADES - MOBILE
+// ======================================================
 
 const API_BASE = "https://easy-soc-backend.onrender.com/api";
 
-// 🔐 Verifica token
+// Verifica login
 if (!localStorage.getItem("token")) {
   window.location.href = "index.html";
 }
 
-/* ============================================================
-   📥 Carregar vulnerabilidades da API
-   ============================================================ */
 async function carregarVulnerabilidades() {
-  const tabela = document.getElementById("tbody-vulnerabilidades");
   const loading = document.getElementById("loading");
+  const listaHtml = document.getElementById("lista-vulnerabilidades");
   const titulo = document.getElementById("titulo-vuln");
 
   try {
     loading.innerText = "Carregando vulnerabilidades...";
-    tabela.innerHTML = "";
+    listaHtml.innerHTML = "";
 
-    const response = await fetch(`${API_BASE}/vulnerabilidades`, {
+    const res = await fetch(`${API_BASE}/vulnerabilidades`, {
       headers: {
         "Authorization": "Bearer " + localStorage.getItem("token")
       }
     });
 
-    if (!response.ok) {
-      throw new Error("Erro ao buscar vulnerabilidades");
-    }
-
-    const data = await response.json();
+    const data = await res.json();
     const lista = data.vulnerabilidades || [];
 
-    titulo.innerText = `Vulnerabilidades encontradas: ${lista.length}`;
     loading.style.display = "none";
+    titulo.innerText = `Vulnerabilidades encontradas: ${lista.length}`;
 
     if (lista.length === 0) {
-      tabela.innerHTML = `<tr><td colspan="5">Nenhuma vulnerabilidade encontrada.</td></tr>`;
+      listaHtml.innerHTML = `<p style="color:#666;text-align:center;">Nenhuma vulnerabilidade encontrada.</p>`;
       return;
     }
 
     lista.forEach(v => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${v.CVE || "-"}</td>
-        <td>${v.Máquina || "-"}</td>
-        <td>${v.Severidade || "-"}</td>
-        <td>${v.Descrição || "-"}</td>
-        <td>${v.Detalhes || "-"}</td>
+      const sev = (v.Severidade || "").toLowerCase();
+
+      let sevClass =
+        sev.includes("critical") ? "status-critical" :
+        sev.includes("alta") || sev.includes("high") ? "status-high" :
+        sev.includes("média") || sev.includes("medium") ? "status-medium" :
+        "status-low";
+
+      const card = document.createElement("div");
+      card.className = "card-vuln";
+
+      card.innerHTML = `
+        <div class="linha"><strong>CVE:</strong> <span>${v.CVE}</span></div>
+        <div class="linha"><strong>Máquina:</strong> <span>${v.Máquina}</span></div>
+        <div class="linha"><strong>Severidade:</strong> <span class="${sevClass}">${v.Severidade}</span></div>
+        <button class="ver-btn" onclick='abrirModal(${JSON.stringify(v)})'>Ver detalhes</button>
       `;
-      tabela.appendChild(tr);
+
+      listaHtml.appendChild(card);
     });
 
   } catch (err) {
-    console.error("Erro ao carregar vulnerabilidades:", err);
+    console.error("Erro:", err);
     loading.innerText = "Erro ao carregar vulnerabilidades.";
   }
 }
 
-// 🚀 Executa ao abrir a página
+// MODAL
+function abrirModal(v) {
+  document.getElementById("modal-bg").style.display = "flex";
+
+  document.getElementById("modal-conteudo").innerHTML = `
+    <p><b>CVE:</b> ${v.CVE}</p>
+    <p><b>Máquina:</b> ${v.Máquina}</p>
+    <p><b>Severidade:</b> ${v.Severidade}</p>
+    <p><b>Descrição:</b> ${v.Descrição}</p>
+    <p><b>Detalhes:</b> ${v.Detalhes}</p>
+  `;
+}
+
+function fecharModal() {
+  document.getElementById("modal-bg").style.display = "none";
+}
+
 carregarVulnerabilidades();

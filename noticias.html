@@ -56,60 +56,72 @@
       color: white;
     }
 
-    .sidebar .active {
-      background: #4c8bfd;
-      color: white;
+    .active {
+      background: #4c8bfd !important;
+      color: white !important;
     }
 
     /* CONTEÚDO */
     .content {
       margin-left: 250px;
-      padding: 25px;
+      padding: 20px;
       width: calc(100% - 250px);
     }
 
     h1 {
-      margin-top: 0;
       font-size: 26px;
-      margin-bottom: 25px;
+      margin: 0 0 20px 0;
     }
 
-    /* GRID DE NOTÍCIAS */
+    /* GRID MOBILE */
     .news-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 25px;
+      grid-template-columns: 1fr;
+      gap: 18px;
     }
 
     .news-card {
       background: white;
       border-radius: 12px;
-      padding: 20px;
+      padding: 18px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      transition: 0.15s;
       cursor: pointer;
-      transition: 0.2s;
     }
 
     .news-card:hover {
-      transform: scale(1.03);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
     }
 
     .news-title {
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 600;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .news-desc {
-      color: #555;
       font-size: 14px;
-      margin-bottom: 10px;
+      color: #555;
+      margin-bottom: 6px;
     }
 
     .news-date {
       font-size: 13px;
-      color: #888;
+      color: #777;
+    }
+
+    /* MOBILE RESPONSIVE */
+    @media (max-width: 600px) {
+      .content {
+        margin-left: 0;
+        padding: 15px;
+        width: 100%;
+      }
+
+      .sidebar {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -139,93 +151,57 @@
 
       <div class="news-card" onclick="window.open('https://thehackernews.com', '_blank')">
         <div class="news-title">Novo ataque de ransomware atinge centenas de empresas</div>
-        <div class="news-desc">
-          Especialistas alertam para uma nova variante que explora falhas não corrigidas no Windows.
-        </div>
+        <div class="news-desc">Variante explora falhas não corrigidas no Windows.</div>
         <div class="news-date">Publicado há 2 dias</div>
       </div>
 
       <div class="news-card" onclick="window.open('https://bleepingcomputer.com', '_blank')">
         <div class="news-title">Falha crítica permite invasão remota em roteadores comuns</div>
-        <div class="news-desc">
-          Fabricantes liberam atualização urgente após descoberta de vulnerabilidade explorada mundialmente.
-        </div>
+        <div class="news-desc">Fabricantes liberam atualização urgente.</div>
         <div class="news-date">Publicado há 5 dias</div>
       </div>
 
       <div class="news-card" onclick="window.open('https://g1.globo.com/economia/tecnologia/', '_blank')">
         <div class="news-title">Banco Central anuncia novas medidas de segurança para o Pix</div>
-        <div class="news-desc">
-          Mudanças afetam limites de transações e reforçam monitoramento de operações suspeitas.
-        </div>
+        <div class="news-desc">Alterações nos limites e monitoramento.</div>
         <div class="news-date">Publicado há 1 semana</div>
       </div>
 
       <div class="news-card" onclick="window.open('https://www.cisa.gov/newsroom', '_blank')">
         <div class="news-title">CISA alerta sobre falhas críticas ativamente exploradas</div>
-        <div class="news-desc">
-          Lista atualizada contém CVEs que exigem atualização imediata pelos administradores.
-        </div>
+        <div class="news-desc">Lista inclui CVEs de alto risco.</div>
         <div class="news-date">Publicado há 3 dias</div>
       </div>
 
       <div class="news-card" onclick="window.open('https://www.kaspersky.com/blog/', '_blank')">
         <div class="news-title">Golpes de phishing avançado crescem 240% no Brasil</div>
-        <div class="news-desc">
-          Campanhas imitando bancos e serviços populares enganam milhares de usuários todos os dias.
-        </div>
+        <div class="news-desc">Ataques imitando bancos disparam.</div>
         <div class="news-date">Publicado há 4 dias</div>
       </div>
 
       <div class="news-card" onclick="window.open('https://www.incibe.es/en', '_blank')">
         <div class="news-title">Ataques a pequenas empresas batem recorde histórico</div>
-        <div class="news-desc">
-          Especialistas destacam falta de políticas de segurança e ausência de proteção nos endpoints.
-        </div>
+        <div class="news-desc">Falta de proteção e políticas aumenta impacto.</div>
         <div class="news-date">Publicado há 1 semana</div>
       </div>
 
     </div>
-
   </div>
 
-  <!-- SCRIPT PADRÃO DO MENU -->
+  <!-- MENU -->
   <script>
-    document.getElementById("menu-dashboard").onclick = () => {
-      window.location.href = "dashboard.html";
-    };
-
-    document.getElementById("menu-maquinas").onclick = () => {
-      window.location.href = "maquinas.html";
-    };
-
-    document.getElementById("menu-vulnerabilidades").onclick = () => {
-      window.location.href = "vulnerabilidades.html";
-    };
-
-    document.getElementById("menu-riscos").onclick = () => {
-      window.location.href = "riscos.html";
-    };
-
-    document.getElementById("menu-incidentes").onclick = () => {
-      window.location.href = "incidentes.html";
-    };
-
-    document.getElementById("menu-relatorios").onclick = () => {
-      window.location.href = "relatorios.html";
-    };
-
-    document.getElementById("menu-documentacoes").onclick = () => {
-      window.location.href = "documentacoes.html";
-    };
-
-    document.getElementById("menu-noticias").onclick = () => {
-      window.location.href = "noticias.html";
-    };
+    document.getElementById("menu-dashboard").onclick = () => location.href = "dashboard.html";
+    document.getElementById("menu-maquinas").onclick = () => location.href = "maquinas.html";
+    document.getElementById("menu-vulnerabilidades").onclick = () => location.href = "vulnerabilidades.html";
+    document.getElementById("menu-riscos").onclick = () => location.href = "riscos.html";
+    document.getElementById("menu-incidentes").onclick = () => location.href = "incidentes.html";
+    document.getElementById("menu-relatorios").onclick = () => location.href = "relatorios.html";
+    document.getElementById("menu-documentacoes").onclick = () => location.href = "documentacoes.html";
+    document.getElementById("menu-noticias").onclick = () => location.href = "noticias.html";
 
     document.getElementById("menu-sair").onclick = () => {
       localStorage.clear();
-      window.location.href = "index.html";
+      location.href = "index.html";
     };
   </script>
 

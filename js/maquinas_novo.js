@@ -1,3 +1,7 @@
+// ======================================================
+// MAQUINAS - Layout Mobile (Cards)
+// ======================================================
+
 const API_BASE = "https://easy-soc-backend.onrender.com/api";
 const TOKEN = localStorage.getItem("token");
 const CLIENTE = localStorage.getItem("cliente");
@@ -17,24 +21,32 @@ async function carregarMaquinas() {
 
     const data = await res.json();
 
-    maquinas = data.detalhes.maquinas;
+    maquinas = data.detalhes.maquinas || [];
 
-    console.log("🔍 Máquinas recebidas:", maquinas);
+    console.log("📡 Máquinas carregadas:", maquinas);
 
-    preencherTabela(maquinas);
+    preencherLista(maquinas);
 
   } catch (err) {
-    console.error("Erro ao carregar máquinas:", err);
+    console.error("❌ Erro ao carregar máquinas:", err);
   }
 }
 
-function preencherTabela(lista) {
-  const tbody = document.getElementById("tabela-maquinas");
-  tbody.innerHTML = "";
+// ======================================================
+// Preencher LISTA (não é mais tabela!)
+// ======================================================
+
+function preencherLista(lista) {
+  const container = document.getElementById("lista-maquinas");
+  container.innerHTML = "";
+
+  if (!lista.length) {
+    container.innerHTML = `<p style="text-align:center;color:#777;margin-top:20px;">Nenhuma máquina encontrada.</p>`;
+    return;
+  }
 
   lista.forEach(m => {
-    
-    const status = m.Status ? m.Status.toLowerCase() : "desconhecido";
+    const status = (m.Status || "-").toLowerCase();
 
     const statusClass =
       status.includes("seguro") ? "status-ok" :
@@ -42,56 +54,76 @@ function preencherTabela(lista) {
       status.includes("risco") ? "status-risk" :
       "status-vuln";
 
-    const tr = document.createElement("tr");
+    const card = document.createElement("div");
+    card.className = "card-maquina";
 
-    tr.innerHTML = `
-      <td>${m.Hostname || "-"}</td>
-      <td>${m.OS || "-"}</td>
-      <td class="${statusClass}">${m.Status || "-"}</td>
-      <td>${m.Vulnerabilidades || 0}</td>
-      <td><button onclick='abrirModal(${JSON.stringify(m)})'>Ver</button></td>
+    card.innerHTML = `
+      <div class="linha">
+        <strong>Hostname:</strong>
+        <span>${m.Hostname || "-"}</span>
+      </div>
+
+      <div class="linha">
+        <strong>Sistema:</strong>
+        <span>${m.OS || "-"}</span>
+      </div>
+
+      <div class="linha">
+        <strong>Status:</strong>
+        <span class="${statusClass}">${m.Status || "-"}</span>
+      </div>
+
+      <div class="linha">
+        <strong>Vulnerabilidades:</strong>
+        <span>${m.Vulnerabilidades || 0}</span>
+      </div>
+
+      <button onclick='abrirModal(${JSON.stringify(m)})'
+        style="margin-top:10px;width:100%;padding:10px;border:none;border-radius:6px;background:#4c8bfd;color:white;font-size:15px;cursor:pointer">
+        Ver detalhes
+      </button>
     `;
 
-    tbody.appendChild(tr);
+    container.appendChild(card);
   });
 }
 
-// ----------------------
-// Filtros de busca
-// ----------------------
+// ======================================================
+// Busca em tempo real
+// ======================================================
 document.getElementById("busca").addEventListener("input", e => {
   const texto = e.target.value.toLowerCase();
 
   const filtradas = maquinas.filter(m =>
-    m.Hostname.toLowerCase().includes(texto) ||
-    m.OS.toLowerCase().includes(texto) ||
-    m.Status.toLowerCase().includes(texto)
+    (m.Hostname || "").toLowerCase().includes(texto) ||
+    (m.OS || "").toLowerCase().includes(texto) ||
+    (m.Status || "").toLowerCase().includes(texto)
   );
 
-  preencherTabela(filtradas);
+  preencherLista(filtradas);
 });
 
-// ----------------------
+// ======================================================
 // Filtro por status
-// ----------------------
+// ======================================================
 document.getElementById("filtro").addEventListener("change", e => {
   const filtro = e.target.value;
 
   if (filtro === "todas") {
-    preencherTabela(maquinas);
+    preencherLista(maquinas);
     return;
   }
 
   const filtradas = maquinas.filter(m =>
-    m.Status.toLowerCase().includes(filtro)
+    (m.Status || "").toLowerCase().includes(filtro)
   );
 
-  preencherTabela(filtradas);
+  preencherLista(filtradas);
 });
 
-// ----------------------
-// Modal
-// ----------------------
+// ======================================================
+// MODAL – Detalhes
+// ======================================================
 function abrirModal(m) {
   document.getElementById("modal-bg").style.display = "flex";
 
@@ -113,5 +145,5 @@ function fecharModal() {
   document.getElementById("modal-bg").style.display = "none";
 }
 
+// Inicializar
 carregarMaquinas();
-

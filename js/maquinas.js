@@ -16,7 +16,10 @@ async function carregarMaquinas() {
     });
 
     const data = await res.json();
+
     maquinas = data.detalhes.maquinas;
+
+    console.log("🔍 Máquinas recebidas:", maquinas);
 
     preencherTabela(maquinas);
 
@@ -30,18 +33,22 @@ function preencherTabela(lista) {
   tbody.innerHTML = "";
 
   lista.forEach(m => {
-    const tr = document.createElement("tr");
+    
+    const status = m.Status ? m.Status.toLowerCase() : "desconhecido";
 
     const statusClass =
-      m.status === "segura" ? "status-ok" :
-      m.status === "risco" ? "status-risk" :
+      status.includes("seguro") ? "status-ok" :
+      status.includes("infect") ? "status-vuln" :
+      status.includes("risco") ? "status-risk" :
       "status-vuln";
 
+    const tr = document.createElement("tr");
+
     tr.innerHTML = `
-      <td>${m.nome}</td>
-      <td>${m.usuario}</td>
-      <td class="${statusClass}">${m.status.toUpperCase()}</td>
-      <td>${m.vulnerabilidades}</td>
+      <td>${m.Hostname || "-"}</td>
+      <td>${m.OS || "-"}</td>
+      <td class="${statusClass}">${m.Status || "-"}</td>
+      <td>${m.Vulnerabilidades || 0}</td>
       <td><button onclick='abrirModal(${JSON.stringify(m)})'>Ver</button></td>
     `;
 
@@ -49,17 +56,24 @@ function preencherTabela(lista) {
   });
 }
 
-// Busca
+// ----------------------
+// Filtros de busca
+// ----------------------
 document.getElementById("busca").addEventListener("input", e => {
   const texto = e.target.value.toLowerCase();
+
   const filtradas = maquinas.filter(m =>
-    m.nome.toLowerCase().includes(texto) ||
-    m.usuario.toLowerCase().includes(texto)
+    m.Hostname.toLowerCase().includes(texto) ||
+    m.OS.toLowerCase().includes(texto) ||
+    m.Status.toLowerCase().includes(texto)
   );
+
   preencherTabela(filtradas);
 });
 
-// Filtros
+// ----------------------
+// Filtro por status
+// ----------------------
 document.getElementById("filtro").addEventListener("change", e => {
   const filtro = e.target.value;
 
@@ -68,22 +82,30 @@ document.getElementById("filtro").addEventListener("change", e => {
     return;
   }
 
-  const filtradas = maquinas.filter(m => m.status === filtro);
+  const filtradas = maquinas.filter(m =>
+    m.Status.toLowerCase().includes(filtro)
+  );
+
   preencherTabela(filtradas);
 });
 
+// ----------------------
 // Modal
+// ----------------------
 function abrirModal(m) {
   document.getElementById("modal-bg").style.display = "flex";
 
   document.getElementById("modal-conteudo").innerHTML = `
-    <p><b>Nome:</b> ${m.nome}</p>
-    <p><b>Usuário:</b> ${m.usuario}</p>
-    <p><b>Status:</b> ${m.status}</p>
-    <p><b>Vulnerabilidades:</b> ${m.vulnerabilidades}</p>
-    <p><b>Sistema Operacional:</b> ${m.so}</p>
-    <p><b>IP:</b> ${m.ip}</p>
-    <p><b>Última atualização:</b> ${m.atualizado}</p>
+    <p><b>Hostname:</b> ${m.Hostname}</p>
+    <p><b>Status:</b> ${m.Status}</p>
+    <p><b>IP:</b> ${m.IP}</p>
+    <p><b>Sistema Operacional:</b> ${m.OS}</p>
+    <p><b>Última Atualização:</b> ${m["ÚltimaAtualização"]}</p>
+    <p><b>Vulnerabilidades:</b> ${m.Vulnerabilidades}</p>
+    <p><b>Riscos:</b> ${m.Riscos}</p>
+    <p><b>Incidentes:</b> ${m.Incidentes}</p>
+    <p><b>Política:</b> ${m.Política}</p>
+    <p><b>Online:</b> ${m.Online}</p>
   `;
 }
 

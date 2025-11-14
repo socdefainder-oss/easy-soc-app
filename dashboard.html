@@ -16,7 +16,7 @@
       display: flex;
     }
 
-    /* ----------------------- SIDEBAR ----------------------- */
+    /* SIDEBAR */
     .sidebar {
       width: 230px;
       height: 100vh;
@@ -61,7 +61,7 @@
       color: white;
     }
 
-    /* ----------------------- CONTEÚDO ----------------------- */
+    /* CONTEÚDO */
     .content {
       margin-left: 250px;
       padding: 25px;
@@ -108,30 +108,12 @@
       border-radius: 12px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
-
-    /* Botão Sair */
-    .logout {
-      position: absolute;
-      top: 20px;
-      right: 25px;
-      background: #ff4757;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 8px;
-      font-size: 14px;
-      cursor: pointer;
-      border: none;
-    }
-
-    .logout:hover {
-      background: #d93645;
-    }
-
   </style>
 </head>
+
 <body>
 
-  <!-- ================= SIDEBAR ================= -->
+  <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>Easy SOC</h2>
 
@@ -142,7 +124,7 @@
     <a id="menu-sair">Sair</a>
   </div>
 
-  <!-- ================= CONTEÚDO ================= -->
+  <!-- CONTEÚDO -->
   <div class="content">
     <h1>Visão Geral</h1>
 
@@ -179,28 +161,28 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="js/dashboard.js"></script>
 
-  <!-- ====== SCRIPTS DA SIDEBAR ====== -->
+  <!-- MENU SCRIPT PADRONIZADO -->
   <script>
-    document.getElementById("menu-dashboard").addEventListener("click", () => {
+    document.getElementById("menu-dashboard").onclick = () => {
       window.location.href = "dashboard.html";
-    });
+    };
 
-    document.getElementById("menu-maquinas").addEventListener("click", () => {
-      window.location.href = "maquinas.html"; // vamos criar depois
-    });
+    document.getElementById("menu-maquinas").onclick = () => {
+      window.location.href = "maquinas.html";
+    };
 
-    document.getElementById("menu-incidentes").addEventListener("click", () => {
+    document.getElementById("menu-incidentes").onclick = () => {
       window.location.href = "incidentes.html";
-});
+    };
 
-    document.getElementById("menu-config").addEventListener("click", () => {
+    document.getElementById("menu-config").onclick = () => {
       alert("Configurações serão adicionadas em breve.");
-    });
+    };
 
-    document.getElementById("menu-sair").addEventListener("click", () => {
+    document.getElementById("menu-sair").onclick = () => {
       localStorage.clear();
       window.location.href = "index.html";
-    });
+    };
   </script>
 
 </body>

@@ -31,6 +31,14 @@
       top: 0;
     }
 
+    .sidebar h2 {
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-size: 22px;
+      text-align: center;
+      font-weight: 600;
+    }
+
     .sidebar a {
       padding: 12px;
       margin-bottom: 8px;
@@ -146,8 +154,9 @@
   <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>Easy SOC</h2>
-    <a href="dashboard.html">Dashboard</a>
-    <a class="active">Máquinas</a>
+
+    <a id="menu-dashboard">Dashboard</a>
+    <a class="active" id="menu-maquinas">Máquinas</a>
     <a id="menu-incidentes">Incidentes</a>
     <a id="menu-config">Configurações</a>
     <a id="menu-sair">Sair</a>
@@ -161,17 +170,17 @@
       <input id="busca" type="text" placeholder="Pesquisar máquina...">
       <select id="filtro">
         <option value="todas">Todas</option>
-        <option value="segura">Seguras</option>
+        <option value="seguro">Seguras</option>
+        <option value="infectado">Infectadas</option>
         <option value="risco">Com Risco</option>
-        <option value="vulneravel">Vulneráveis</option>
       </select>
     </div>
 
     <table>
       <thead>
         <tr>
-          <th>Nome</th>
-          <th>Usuário</th>
+          <th>Hostname</th>
+          <th>Sistema</th>
           <th>Status</th>
           <th>Vulnerabilidades</th>
           <th>Detalhes</th>
@@ -192,6 +201,29 @@
 
   <script src="js/maquinas.js"></script>
 
-</body>
+  <!-- MENU SCRIPT PADRONIZADO -->
+  <script>
+    document.getElementById("menu-dashboard").onclick = () => {
+      window.location.href = "dashboard.html";
+    };
 
+    document.getElementById("menu-maquinas").onclick = () => {
+      window.location.href = "maquinas.html";
+    };
+
+    document.getElementById("menu-incidentes").onclick = () => {
+      window.location.href = "incidentes.html";
+    };
+
+    document.getElementById("menu-config").onclick = () => {
+      alert("Configurações serão adicionadas em breve.");
+    };
+
+    document.getElementById("menu-sair").onclick = () => {
+      localStorage.clear();
+      window.location.href = "index.html";
+    };
+  </script>
+
+</body>
 </html>

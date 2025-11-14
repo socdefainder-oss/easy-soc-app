@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Easy SOC — Incidentes</title>
+  <title>Easy SOC — Documentações</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
@@ -74,65 +74,41 @@
       margin-bottom: 25px;
     }
 
-    /* TABELA */
-    table {
-      width: 100%;
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+    }
+
+    .doc-card {
       background: white;
+      padding: 20px;
       border-radius: 12px;
-      padding: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-      border-collapse: collapse;
-    }
-
-    th, td {
-      padding: 12px;
-      font-size: 15px;
-      border-bottom: 1px solid #eee;
-      text-align: left;
-    }
-
-    th {
-      background: #f0f3f9;
-      font-weight: 600;
-    }
-
-    .status-open { color: #dc3545; font-weight: bold; }
-    .status-progress { color: #ffc107; font-weight: bold; }
-    .status-closed { color: #28a745; font-weight: bold; }
-
-    /* MODAL */
-    .modal-bg {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal {
-      background: white;
-      padding: 25px;
-      border-radius: 12px;
-      width: 450px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
-
-    .modal h2 {
-      margin-top: 0;
-    }
-
-    .close-btn {
-      background: #dc3545;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
       cursor: pointer;
-      border: none;
-      float: right;
+      transition: .2s;
+      text-align: center;
+    }
+
+    .doc-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    }
+
+    .doc-icon {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    p {
+      margin-top: 6px;
+      color: #666;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -147,45 +123,57 @@
     <a id="menu-maquinas">Máquinas</a>
     <a id="menu-vulnerabilidades">Vulnerabilidades</a>
     <a id="menu-riscos">Riscos</a>
-    <a id="menu-incidentes" class="active">Incidentes</a>
+    <a id="menu-incidentes">Incidentes</a>
     <a id="menu-relatorios">Relatórios</a>
-    <a id="menu-documentacoes">Documentações</a>
+    <a id="menu-documentacoes" class="active">Documentações</a>
     <a id="menu-noticias">Notícias</a>
     <a id="menu-sair">Sair</a>
   </div>
 
   <!-- CONTEÚDO -->
   <div class="content">
-    <h1>Incidentes</h1>
+    <h1>Documentações</h1>
 
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Máquina</th>
-          <th>Tipo</th>
-          <th>Status</th>
-          <th>Data</th>
-          <th>Detalhes</th>
-        </tr>
-      </thead>
-      <tbody id="tabela-incidentes">
-        <!-- preenchido pelo JS -->
-      </tbody>
-    </table>
-  </div>
+    <div class="docs-grid">
 
-  <!-- MODAL -->
-  <div id="modal-bg" class="modal-bg">
-    <div class="modal">
-      <button class="close-btn" onclick="fecharModal()">Fechar</button>
-      <h2>Detalhes do Incidente</h2>
-      <div id="modal-conteudo"></div>
+      <div class="doc-card" onclick="alert('Upload de documentos será ativado futuramente!')">
+        <div class="doc-icon">📘</div>
+        <h3>PSI — Política de Segurança da Informação</h3>
+        <p>Diretrizes, normas e requisitos para clientes.</p>
+      </div>
+
+      <div class="doc-card" onclick="alert('Upload de documentos será ativado futuramente!')">
+        <div class="doc-icon">📝</div>
+        <h3>Contrato BYOD</h3>
+        <p>Termo para colaboradores que usam dispositivos pessoais.</p>
+      </div>
+
+      <div class="doc-card" onclick="alert('Upload de documentos será ativado futuramente!')">
+        <div class="doc-icon">📄</div>
+        <h3>Arquitetura do SOC</h3>
+        <p>Visão técnica da operação de segurança.</p>
+      </div>
+
+      <div class="doc-card" onclick="alert('Upload de documentos será ativado futuramente!')">
+        <div class="doc-icon">📑</div>
+        <h3>Modelos de Relatórios</h3>
+        <p>Templates para clientes e auditorias.</p>
+      </div>
+
+      <div class="doc-card" onclick="alert('Upload de documentos será ativado futuramente!')">
+        <div class="doc-icon">📚</div>
+        <h3>Guias e Procedimentos</h3>
+        <p>Passo a passo para tratativas e emergências.</p>
+      </div>
+
+      <div class="doc-card" onclick="alert('Upload de documentos será ativado futuramente!')">
+        <div class="doc-icon">🔒</div>
+        <h3>Compliance & LGPD</h3>
+        <p>Documentação focada em privacidade e governança.</p>
+      </div>
+
     </div>
   </div>
-
-  <!-- JS -->
-  <script src="js/incidentes.js"></script>
 
   <!-- SCRIPT PADRÃO DO MENU -->
   <script>

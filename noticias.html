@@ -4,9 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Easy SOC – Dashboard</title>
+  <title>Easy SOC — Notícias</title>
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -75,97 +74,120 @@
       margin-bottom: 25px;
     }
 
-    .cards {
+    /* GRID DE NOTÍCIAS */
+    .news-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
     }
 
-    .card {
+    .news-card {
       background: white;
-      padding: 20px;
       border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-      text-align: center;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      cursor: pointer;
+      transition: 0.2s;
     }
 
-    .card h3 {
-      margin: 0;
+    .news-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+    }
+
+    .news-title {
       font-size: 17px;
       font-weight: 600;
       margin-bottom: 10px;
     }
 
-    .card .value {
-      font-size: 32px;
-      font-weight: bold;
-      color: #0066ff;
+    .news-desc {
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 10px;
     }
 
-    canvas {
-      background: white;
-      margin-top: 20px;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    .news-date {
+      font-size: 13px;
+      color: #888;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- SIDEBAR NOVA -->
+  <!-- SIDEBAR -->
   <div class="sidebar">
     <h2>Easy SOC</h2>
 
-    <a id="menu-dashboard" class="active">Dashboard</a>
+    <a id="menu-dashboard">Dashboard</a>
     <a id="menu-maquinas">Máquinas</a>
     <a id="menu-vulnerabilidades">Vulnerabilidades</a>
     <a id="menu-riscos">Riscos</a>
     <a id="menu-incidentes">Incidentes</a>
     <a id="menu-relatorios">Relatórios</a>
     <a id="menu-documentacoes">Documentações</a>
-    <a id="menu-noticias">Notícias</a>
+    <a id="menu-noticias" class="active">Notícias</a>
     <a id="menu-sair">Sair</a>
   </div>
 
   <!-- CONTEÚDO -->
   <div class="content">
-    <h1>Visão Geral</h1>
+    <h1>Notícias de Segurança</h1>
 
-    <div class="cards">
-      <div class="card">
-        <h3>Máquinas Totais</h3>
-        <div id="c-total" class="value">0</div>
+    <div class="news-grid">
+
+      <div class="news-card" onclick="window.open('https://thehackernews.com', '_blank')">
+        <div class="news-title">Novo ataque de ransomware atinge centenas de empresas</div>
+        <div class="news-desc">
+          Especialistas alertam para uma nova variante que explora falhas não corrigidas no Windows.
+        </div>
+        <div class="news-date">Publicado há 2 dias</div>
       </div>
 
-      <div class="card">
-        <h3>Máquinas Seguras</h3>
-        <div id="c-seguras" class="value">0</div>
+      <div class="news-card" onclick="window.open('https://bleepingcomputer.com', '_blank')">
+        <div class="news-title">Falha crítica permite invasão remota em roteadores comuns</div>
+        <div class="news-desc">
+          Fabricantes liberam atualização urgente após descoberta de vulnerabilidade explorada mundialmente.
+        </div>
+        <div class="news-date">Publicado há 5 dias</div>
       </div>
 
-      <div class="card">
-        <h3>Vulnerabilidades</h3>
-        <div id="c-vuln" class="value">0</div>
+      <div class="news-card" onclick="window.open('https://g1.globo.com/economia/tecnologia/', '_blank')">
+        <div class="news-title">Banco Central anuncia novas medidas de segurança para o Pix</div>
+        <div class="news-desc">
+          Mudanças afetam limites de transações e reforçam monitoramento de operações suspeitas.
+        </div>
+        <div class="news-date">Publicado há 1 semana</div>
       </div>
 
-      <div class="card">
-        <h3>Riscos</h3>
-        <div id="c-riscos" class="value">0</div>
+      <div class="news-card" onclick="window.open('https://www.cisa.gov/newsroom', '_blank')">
+        <div class="news-title">CISA alerta sobre falhas críticas ativamente exploradas</div>
+        <div class="news-desc">
+          Lista atualizada contém CVEs que exigem atualização imediata pelos administradores.
+        </div>
+        <div class="news-date">Publicado há 3 dias</div>
       </div>
 
-      <div class="card">
-        <h3>Incidentes</h3>
-        <div id="c-inc" class="value">0</div>
+      <div class="news-card" onclick="window.open('https://www.kaspersky.com/blog/', '_blank')">
+        <div class="news-title">Golpes de phishing avançado crescem 240% no Brasil</div>
+        <div class="news-desc">
+          Campanhas imitando bancos e serviços populares enganam milhares de usuários todos os dias.
+        </div>
+        <div class="news-date">Publicado há 4 dias</div>
       </div>
+
+      <div class="news-card" onclick="window.open('https://www.incibe.es/en', '_blank')">
+        <div class="news-title">Ataques a pequenas empresas batem recorde histórico</div>
+        <div class="news-desc">
+          Especialistas destacam falta de políticas de segurança e ausência de proteção nos endpoints.
+        </div>
+        <div class="news-date">Publicado há 1 semana</div>
+      </div>
+
     </div>
 
-    <canvas id="grafico"></canvas>
   </div>
-
-  <!-- JS -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="js/dashboard.js"></script>
 
   <!-- SCRIPT PADRÃO DO MENU -->
   <script>

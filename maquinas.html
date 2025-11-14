@@ -51,11 +51,17 @@
       transition: 0.2s;
     }
 
+    .sidebar a:hover {
+      background: #2a3048;
+      color: white;
+    }
+
     .sidebar .active {
       background: #4c8bfd;
       color: white;
     }
 
+    /* CONTEÚDO */
     .content {
       margin-left: 250px;
       padding: 25px;
@@ -68,6 +74,27 @@
       margin-bottom: 25px;
     }
 
+    /* BUSCA/FILTRO */
+    .busca-filtros {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 10px;
+      width: 240px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    select {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    /* TABELA */
     table {
       width: 100%;
       background: white;
@@ -89,28 +116,9 @@
       font-weight: 600;
     }
 
-    .status-ok { color: #28a745; font-weight: bold; }
+    .status-ok   { color: #28a745; font-weight: bold; }
     .status-risk { color: #ffc107; font-weight: bold; }
     .status-vuln { color: #dc3545; font-weight: bold; }
-
-    .busca-filtros {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 20px;
-    }
-
-    input {
-      padding: 10px;
-      width: 240px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    select {
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
 
     /* MODAL */
     .modal-bg {
@@ -156,9 +164,13 @@
     <h2>Easy SOC</h2>
 
     <a id="menu-dashboard">Dashboard</a>
-    <a class="active" id="menu-maquinas">Máquinas</a>
+    <a id="menu-maquinas" class="active">Máquinas</a>
+    <a id="menu-vulnerabilidades">Vulnerabilidades</a>
+    <a id="menu-riscos">Riscos</a>
     <a id="menu-incidentes">Incidentes</a>
-    <a id="menu-config">Configurações</a>
+    <a id="menu-relatorios">Relatórios</a>
+    <a id="menu-documentacoes">Documentações</a>
+    <a id="menu-noticias">Notícias</a>
     <a id="menu-sair">Sair</a>
   </div>
 
@@ -199,9 +211,10 @@
     </div>
   </div>
 
+  <!-- JS -->
   <script src="js/maquinas.js"></script>
 
-  <!-- MENU SCRIPT PADRONIZADO -->
+  <!-- SCRIPT PADRÃO DO MENU -->
   <script>
     document.getElementById("menu-dashboard").onclick = () => {
       window.location.href = "dashboard.html";
@@ -211,12 +224,28 @@
       window.location.href = "maquinas.html";
     };
 
+    document.getElementById("menu-vulnerabilidades").onclick = () => {
+      window.location.href = "vulnerabilidades.html";
+    };
+
+    document.getElementById("menu-riscos").onclick = () => {
+      window.location.href = "riscos.html";
+    };
+
     document.getElementById("menu-incidentes").onclick = () => {
       window.location.href = "incidentes.html";
     };
 
-    document.getElementById("menu-config").onclick = () => {
-      alert("Configurações serão adicionadas em breve.");
+    document.getElementById("menu-relatorios").onclick = () => {
+      window.location.href = "relatorios.html";
+    };
+
+    document.getElementById("menu-documentacoes").onclick = () => {
+      window.location.href = "documentacoes.html";
+    };
+
+    document.getElementById("menu-noticias").onclick = () => {
+      window.location.href = "noticias.html";
     };
 
     document.getElementById("menu-sair").onclick = () => {
@@ -226,4 +255,5 @@
   </script>
 
 </body>
+
 </html>
